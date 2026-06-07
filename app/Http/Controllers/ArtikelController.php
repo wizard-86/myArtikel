@@ -10,12 +10,28 @@ class ArtikelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $artikels = Artikel::paginate(3);
-        return view('artikel.index',compact('artikels'));
-        
+public function index(Request $request)
+{
+    $search = $request->search;
+
+    $query = Artikel::query();
+
+    if ($search) {
+
+        $query->where(
+            'judul',
+            'like',
+            "%{$search}%"
+        );
+
     }
+
+    $artikels = $query
+    ->paginate(3)
+    ->withQueryString();
+
+    return view('artikel.index', compact('artikels'));
+}
 
     /**
      * Show the form for creating a new resource.

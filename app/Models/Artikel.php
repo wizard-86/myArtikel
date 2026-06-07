@@ -8,6 +8,7 @@ class Artikel extends Model
 {
     protected $fillable = [
         'judul',
-        'isi'
+        'isi',
+        'gambar'
     ];
 }
