@@ -12,7 +12,7 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        $artikels = Artikel::All();
+        $artikels = Artikel::paginate(3);
         return view('artikel.index',compact('artikels'));
         
     }

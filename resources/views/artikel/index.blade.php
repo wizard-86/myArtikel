@@ -10,4 +10,5 @@
         <x-artikel-card :artikel="$artikel" />
 
     @endforeach
+    {{ $artikels->links() }}
 @endsection
