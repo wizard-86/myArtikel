@@ -104,7 +104,6 @@ if ($request->hasFile('gambar')) {
     // public function update(Request $request, string $id)
     public function update(Request $request, Artikel $artikel)
     {
-
          $validated = $request->validate([
         'isi' => 'required|string',
         'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
@@ -140,7 +139,9 @@ if ($request->hasFile('gambar')) {
         // $artikel = Artikel::find($id);
         // $artikel->delete();
         // return redirect('/artikel');
-
+        if ($artikel->gambar && Storage::disk('public')->exists($artikel->gambar)) {
+        Storage::disk('public')->delete($artikel->gambar);
+        }
         $artikel->delete();
 
         return redirect()->route('artikel.index');
