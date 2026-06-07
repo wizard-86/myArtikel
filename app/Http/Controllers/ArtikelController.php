@@ -46,10 +46,10 @@ public function index(Request $request)
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'isi' => 'required|string'
+            'isi' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ],[
     // Custom pesan error (opsional)
     'judul.required' => 'Judul artikel wajib diisi',
@@ -57,9 +57,23 @@ public function index(Request $request)
     'isi.min' => 'Isi artikel minimal 10 karakter',
     'isi.required' => 'isi artikel wajib diisi'
 ]);
+
+        $path = null;
+
+if ($request->hasFile('gambar')) {
+
+    $path = $request
+        ->file('gambar')
+        ->store('artikel', 'public');
+
+}
         
 
-        Artikel::create($validated); // Bisa langsung pakai $validated
+        Artikel::create([
+        'judul' => $validated['judul'],
+        'isi' => $validated['isi'],
+        'gambar' => $path
+    ]); // Bisa langsung pakai $validated
 
         return redirect('/artikel');
     

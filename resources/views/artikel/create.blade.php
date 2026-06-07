@@ -5,7 +5,7 @@
 @section('content')   
 <h1>Tambah Artikel</h1>
 <div class="card">
-    <form action="{{route('artikel.store')}}" method="POST">
+    <form action="{{route('artikel.store')}}" method="POST" enctype="multipart/form-data">
     
         @csrf
     
@@ -29,6 +29,13 @@
                     *{{ $message }}
                 </p>
             @enderror
+        </div>
+
+        <div class="form-group">
+            <input
+    type="file"
+    name="gambar"
+>
         </div>
     
         <br>
