@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Artikel;
+use Illuminate\Support\Facades\Storage;
 
 class ArtikelController extends Controller
 {
@@ -27,7 +28,7 @@ public function index(Request $request)
     }
 
     $artikels = $query
-    ->paginate(3)
+    ->paginate(6)
     ->withQueryString();
 
     return view('artikel.index', compact('artikels'));
@@ -105,18 +106,25 @@ if ($request->hasFile('gambar')) {
     {
 
          $validated = $request->validate([
-        'isi' => 'required|string'
+        'isi' => 'required|string',
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
     ],['isi.required' => 'isi artikel wajib diisi']);
 
-    // $artikel = Artikel::find($id);
-
-    // $artikel->update($validated);
-
-    // return redirect('/artikel');
+         $path = $artikel->gambar;
+    if ($request->hasFile('gambar'))
+{
+        if ($artikel->gambar && Storage::disk('public')->exists($artikel->gambar)) {
+        Storage::disk('public')->delete($artikel->gambar);
+        }
+    $path = $request
+            ->file('gambar')
+            ->store('artikel', 'public');
+}
 
 
     $artikel->update([
-        'isi' => $request->isi
+        'isi' => $request->isi,
+        'gambar' => $path
     ]);
 
     return redirect()->route('artikel.index');

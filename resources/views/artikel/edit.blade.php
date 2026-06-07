@@ -6,7 +6,7 @@
 <div class="edit">
     
     <h1>{{$artikel->judul}}</h1>
-    <form action="{{ route('artikel.update', $artikel->id) }}" method="POST">
+    <form action="{{ route('artikel.update', $artikel->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
     <div>
@@ -17,6 +17,20 @@
                     *{{ $message }}
                 </p>
         @enderror
+    </div>
+    <div>
+        @if($artikel->gambar)
+
+    <img
+        src="{{ asset('storage/' . $artikel->gambar) }}"
+        width="200"
+    >
+
+@endif
+        <input
+    type="file"
+    name="gambar"
+>
     </div>
     <button type="submit" class="btn">
         Simpan
