@@ -6,4 +6,7 @@
             <li><a href="/about">About</a></li>
             <li><a href="/help">Help</a></li>
         </ul>
+        <form action="/logout" method="POST">
+         <button type="submit">logout</button>
+        </form>
     </nav>
